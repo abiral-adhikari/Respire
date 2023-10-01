@@ -17,7 +17,7 @@ redis.set('myKey', 'myValue', (err, result) => {
         console.log('Value set successfully:', result);
     }
 });
-async function rankdevice() {
+async function rankdevice(req,res) {
     try {
       // Load devices from MongoDB (Replace this with your MongoDB query)
       const devices = await Device.find({}, { _id: 0, SerialNumber: 1, points: 1 });
