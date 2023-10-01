@@ -20,7 +20,7 @@ redis.set('myKey', 'myValue', (err, result) => {
 async function rankdevice(req,res) {
     try {
       // Load devices from MongoDB (Replace this with your MongoDB query)
-      const devices = await Device.find({}, { _id: 0, SerialNumber: 1, points: 1 });
+      const devices = await Device.find({});
   
       // Update the Redis Sorted Set with device scores
       for (const device of devices) {
@@ -37,15 +37,16 @@ async function rankdevice(req,res) {
         const SerialNumber = result[i];
         const points = result[i + 1];
         console.log(`Device SerialNumber: ${SerialNumber}, Points: ${points}`);
-        res.status(200).json()
+        const data={SerialNumber, points}
+        output.push(data)
       }
-      // Close the Redis connection when done
-      redis.quit();
+      res.status(200).json(output)
     } catch (error) {
       console.error('Error:', error);
       // Handle errors as needed
     }
   }
-    
+  // Close the Redis connection when done
+  redis.quit();  
 
 module.exports ={rankdevice}
