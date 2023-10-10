@@ -28,7 +28,7 @@ async function rankdevice(req,res) {
       }
   
       // Retrieve the top N devices based on points
-      const numberOfDevicesToFetch = 10; // Change this according to your requirements
+      const numberOfDevicesToFetch = 20; 
       const result = await redis.zrevrange('device_ranking', 0, numberOfDevicesToFetch - 1, 'WITHSCORES');
       
       const output=[]
@@ -43,10 +43,10 @@ async function rankdevice(req,res) {
       res.status(200).json(output)
     } catch (error) {
       console.error('Error:', error);
-      // Handle errors as needed
+  
     }
   }
-  // Close the Redis connection when done
+
   redis.quit();  
 
 module.exports ={rankdevice}
